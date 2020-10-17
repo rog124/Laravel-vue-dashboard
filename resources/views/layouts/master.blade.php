@@ -4,14 +4,15 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Admin-Vue</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel='stylesheet' href='/css/app.css'>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+<div class="wrapper" id='app'>
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -72,15 +73,15 @@
 
 
                <li class="nav-item ">
-                <a href="pages/examples/project-detail.html" class="nav-link">
+                <router-link to="/dashboard" class="nav-link ">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
-                </a>
+                </router-link>
               </li>
             
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+          <li class="nav-item has-treeview menu-closed">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
               <p>
                 Management
                 <i class="right fas fa-angle-left"></i>
@@ -88,21 +89,31 @@
             </a>
             <ul class="nav nav-treeview ">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Blog</p>
-                </a></ul>
-              </li>   <li class="nav-item ">
-                <a href="pages/examples/project-detail.html" class="nav-link">
+                <router-link to="/users" class="nav-link">
+                  <i class="nav-icon far fa-blog"></i>
+                  <p>Users</p>
+                </router-link></ul>
+              </li>   
+          </li>     
+          <li class="nav-item ">
+                <router-link to="/profile" class="nav-link ">
                   <i class="nav-icon fas fa-user"></i>
                   <p>Profile</p>
-                </a>
+                </router-link>
               </li>
-              </li>   <li class="nav-item ">
-                <a href="pages/examples/project-detail.html" class="nav-link">
-                  <i class="nav-icon fas fa-power-off"></i>
-                  <p>Logout</p>
-                </a>
+              <li class="nav-item ">
+              
+                <a class="nav-link" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                        <i class="nav-icon fas fa-power-off"></i>
+                                                      <p> {{ __('Logout') }}</p>   
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+
               </li>
             
           </li>
@@ -113,29 +124,20 @@
     <!-- /.sidebar -->
   </aside>
 
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
+              <div class="content">
+              
+                <div class="container-fluid">
+                
+                  <router-view></router-view>
+                  <vue-progress-bar></vue-progress-bar>
+                </div>
+              
+              
+              </div>
     
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -152,14 +154,7 @@
   </aside>
   <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
-
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
 <script src='/js/app.js'></script> 
 
 
